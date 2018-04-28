@@ -18,10 +18,14 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 
 ## Support
 
-### [Contributions Spent On](https://github.com/nopara73/HiddenWallet/blob/master/HiddenWallet.Documentation/DonationsSpentOn.md)
+### Address
+35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi  
+[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi)
 
-bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m  
-[![QR Code](https://i.imgur.com/8JGnzJ7.png)](https://chainflyer.bitflyer.jp/Address/bc1q32xe73texphk3cgu33cyw7dajky9u76qltcv6m)
+#### Payment code (BIP47)
+
+[![BIP47 payment code](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=PM8TJVzLGqWR3dtxZYaTWn3xJUop3QP3itR4eYzX7XvV5uAfctEEuHhKNo3zCcqfAbneMhyfKkCthGv5werVbwLruhZyYNTxqbCrZkNNd2pPJA2e2iAh&qzone=1&margin=0&size=200x200&ecc=L)](https://paynym.is/+samouraiwallet)
+
 
 ## [Publicity And External Resources](PublicityExternalResources.md)
 
@@ -48,6 +52,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
 &nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
 IV. [ZeroLink Compliance Checklist](#iv-zerolink-compliance-checklist)  
+V. [Samourai Wallet](#v-samourai-wallet)  
 
 ## I. Introduction
 
@@ -633,3 +638,8 @@ It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet req
 [12]:https://github.com/stratisproject/Breeze
 [13]:https://github.com/nopara73/HiddenWallet
 
+## V. Samourai Wallet
+
+### Implementation
+
+Development on the Samourai Wallet implementation of ZeroLink is ongoing. The finished service will go under the name of WhirlPool.

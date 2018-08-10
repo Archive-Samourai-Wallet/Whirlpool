@@ -12,6 +12,9 @@ TDevD,
 [Samourai Wallet](https://github.com/Samourai-Wallet),  
 [PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
+ZeroLeak,  
+[Samourai Wallet](https://github.com/Samourai-Wallet)
+
 ### Acknowledgements
 
 Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedbacks.
@@ -19,13 +22,12 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 ## Support
 
 ### Address
-35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi  
-[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi)
+bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2  
+[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
 
 #### Payment code (BIP47)
 
 [![BIP47 payment code](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=PM8TJVzLGqWR3dtxZYaTWn3xJUop3QP3itR4eYzX7XvV5uAfctEEuHhKNo3zCcqfAbneMhyfKkCthGv5werVbwLruhZyYNTxqbCrZkNNd2pPJA2e2iAh&qzone=1&margin=0&size=200x200&ecc=L)](https://paynym.is/+samouraiwallet)
-
 
 ## [Publicity And External Resources](PublicityExternalResources.md)
 
@@ -51,8 +53,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
 &nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
-IV. [ZeroLink Compliance Checklist](#iv-zerolink-compliance-checklist)  
-V. [Samourai Wallet](#v-samourai-wallet)  
+IV. [Samourai Wallet](#v-samourai-wallet)  
 
 ## I. Introduction
 
@@ -438,7 +439,7 @@ A post-mix wallet MAY offer to make a user's first purchase to be a regular Coin
 |---------------------------------|--------------------------------------|
 ||Post-mix wallet SHOULD always generate P2WPKH ScriptPubKeys as the change output of a built transction.|
 
-#### Active SriptPubKeys
+#### Active ScriptPubKeys
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
 ||Post-mix wallet SHOULD be able to build transactions to P2PKH, P2WPKH, P2SH and P2WSH active outputs.|  
@@ -448,13 +449,15 @@ If all post-mix wallet software would only be able to send to P2PKH active outpu
 #### Transaction Output Indexing
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD index its built transaction outputs randomly.|
+||Post-mix wallet SHOULD index its built transaction inputs and outputs <del>randomly</del> in accordance with BIP69.|
 
-A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.
+See [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs.
 
-Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
+<del>A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.</del>
 
-It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.
+<del>Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.</del>
+
+<del>It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.</del>
 
 #### Fee Rate Estimation	
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -483,10 +486,10 @@ If any post-mix wallet produces a fee that does not fall into the sanity check, 
 #### Replace-by-Fee
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD prevent its users to utilize RBF.|
+||Post-mix wallet SHOULD <del>prevent</del> allow its users to utilize RBF.|
 
-Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
-Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature and should be provided for selective use. <del>On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
+Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.</del>
 
 #### Spending Unconfirmed Transactions
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
@@ -548,7 +551,7 @@ BIP47 Stealth Addresses were proposed by Justus Ranvier and described in [BIP47]
 
 BIP47 Stealth Addresses differ from Dark Wallet Stealth Addresses in that both sides of a BIP47 payment channel handle address detection and synchronization rather than relying on any server-assisted Blockchain scanning. BIP47 provides the privacy advantages of Dark Wallet-style Stealth Addresses to Simplified Payment Verification and other light clients without necessitating the use of a trusted full node.
 
-Following the publishing of the BIP, BIP47 Stealth Addresses were [implemented](https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet](https://samouraiwallet.com) and have since gained traction through real usage with over 420 active channels having been created by privacy-seeking users.
+Following the publishing of the BIP, BIP47 Stealth Addresses were [implemented](https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet](https://samouraiwallet.com) and have since gained traction through real usage with over 7000 active channels having been created by privacy-seeking users.
 
 It should be noted that Dark Wallet started work on [their own](https://github.com/darkwallet/darkwallet/commits/pcodes) BIP47 implementation during a short period in early 2016 when their project was momentarily revived. 
 
@@ -556,7 +559,7 @@ It should be noted that Dark Wallet started work on [their own](https://github.c
 
 ##### Background
 
-For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Addressing, BIP47 could be used. However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and librairies and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Neverthless it should be a topic of future research.  
+BIP47 will be used for combining Chaumian CoinJoin and Stealth Addressing. Samourai Wallet has obtained a deep understanding of mobile stealth addressing since implementing it in 2015 and will use this experience to augment the privacy afforded by Whirlpool. <del>However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and librairies and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Neverthless it should be a topic of future research.</del>  
 
 BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
 
@@ -588,57 +591,8 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 
 BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
 
-## IV. ZeroLink Compliance Checklist
 
-It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet requirements aim to make sure that after-mix privacy loss does not happen.  
-
-### Bitcoin Wallets Interested In ZeroLink 
-
-|              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
-|:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted full node | &#9745;              | &#9745;             |
-| [Coin Selection][3]                     |    Basic    |                       |                              | by default strongly discourages change generation and input joining |
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor       |                              | &#9745;             |
-| [Transaction Broadcasting][1]           |  Uniformity |                       |                              |                     |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Change ScriptPubKey][5]                |  Uniformity | &#9745;               |                              | &#9745;             |
-| [Active ScriptPubKey][6]                |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Output Indexing][7]                    |  Uniformity |                       | &#9745;                      | &#9745;             |
-| [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
-| [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
-| [Replace-by-Fee][10]                    |  Uniformity | by default            | &#9745;                      | &#9745;             |
-
-### Popular Bitcoin Wallets
-
-|              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
-|:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted Electrum server | &#9745; | |  |          |
-| [Coin Selection][3]                     |    Basic    | opt-in coin control feature | opt-in coin control feature | |||
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor | opt-in over Tor |       | | opt-in over Tor |
-| [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity |  ?       | ?          | ?        | ?               | ?        |
-| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 | ?        |
-| [Active ScriptPubKey][6]                |  Uniformity |          |            |          |                 | ?        |
-| [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
-| [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
-| [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
-| [Replace-by-Fee][10]                    |  Uniformity | by default | by default | ?      | ?               | ?        |
-
-[1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
-[2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
-[3]:https://github.com/nopara73/ZeroLink#coin-selection
-[4]:https://github.com/nopara73/ZeroLink#spending-unconfirmed-transactions
-[5]:https://github.com/nopara73/ZeroLink#change-scriptpubkeys 
-[6]:https://github.com/nopara73/ZeroLink#active-sriptpubkeys
-[7]:https://github.com/nopara73/ZeroLink#transaction-output-indexing
-[8]:https://github.com/nopara73/ZeroLink#fee-rate-estimation
-[9]:https://github.com/nopara73/ZeroLink#fee-calculation
-[10]:https://github.com/nopara73/ZeroLink#replace-by-fee
-[11]:https://github.com/Samourai-Wallet/
-[12]:https://github.com/stratisproject/Breeze
-[13]:https://github.com/nopara73/HiddenWallet
-
-## V. Samourai Wallet
+## IV. Samourai Wallet
 
 ### Implementation
 

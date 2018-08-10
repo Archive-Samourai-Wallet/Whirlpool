@@ -557,7 +557,7 @@ It should be noted that Dark Wallet started work on [their own](https://github.c
 
 ##### Background
 
-For the purposes of this proposal of combining Chaumian CoinJoin and Stealth Addressing, BIP47 could be used. However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and librairies and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Neverthless it should be a topic of future research.  
+BIP47 will be used for combining Chaumian CoinJoin and Stealth Addressing. Samourai Wallet has obtained a deep understanding of mobile stealth addressing since implementing it in 2015 and will use this experience to augment the privacy afforded by Whirlpool. <del>However ZeroLink avoids adding complexity to pre-mix wallets, it aims to use existing production-ready code bases and librairies and, as such, does not want to introduce any significant overhead to the overall Chaumian CoinJoin workflow, therefore BIP47 is not part of the protocol. Neverthless it should be a topic of future research.</del>  
 
 BIP47 allows for the calculation of two address spaces between Alice and Bob. Alice can calculate the public keys of the addresses she will use to send transactions to Bob. In addition, Alice can calculate the private keys for the addresses which will receive transactions from Bob. The same is true for Bob vis-à-vis Alice.
 

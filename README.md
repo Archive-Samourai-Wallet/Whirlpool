@@ -30,8 +30,6 @@ bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2
 
 [![BIP47 payment code](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=PM8TJVzLGqWR3dtxZYaTWn3xJUop3QP3itR4eYzX7XvV5uAfctEEuHhKNo3zCcqfAbneMhyfKkCthGv5werVbwLruhZyYNTxqbCrZkNNd2pPJA2e2iAh&qzone=1&margin=0&size=200x200&ecc=L)](https://paynym.is/+samouraiwallet)
 
-## [Publicity And External Resources](PublicityExternalResources.md)
-
 ## Abstract
 
 While [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. The scope of ZeroLink is not limited to a single transaction, it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  

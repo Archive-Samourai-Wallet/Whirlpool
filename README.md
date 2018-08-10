@@ -24,7 +24,7 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 
 ### Address
 bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2  
-[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
+[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](https://oxt.me/address/bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
 
 #### Payment code (BIP47)
 

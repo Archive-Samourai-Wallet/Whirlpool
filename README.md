@@ -1,4 +1,5 @@
-# ZeroLink: The Bitcoin Fungibility Framework
+# Whirlpool
+##### Samourai Wallet implementation of ZeroLink: The Bitcoin Fungibility Framework
 
 ![](http://i.imgur.com/ODjt3wf.png)
 

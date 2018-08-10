@@ -590,7 +590,7 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 
 ##### Pseudonymous Repositories
 
-BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
+BIP47 payment codes, being unique identifiers derived from the wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
 
 
 ## IV. Samourai Wallet

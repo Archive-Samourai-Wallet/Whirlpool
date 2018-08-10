@@ -451,11 +451,11 @@ If all post-mix wallet software would only be able to send to P2PKH active outpu
 
 See [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs.
 
-<del>A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.
+<del>A post-mix wallet, due to its design, will only have one input and a maximum of two outputs at all times. Uniform indexing of outputs is necessary in order for multiple post-mix wallet implementations to look the same. A post-mix wallet SHOULD use random indexing of outputs.</del>
 
-Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.
+<del>Random indexing is not exclusively beneficial for post-mix wallet uniformity, conversely it has another privacy benefit. When a wallet software always generates the change output on the second index, observers always know which output is the change.</del>
 
-It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.</del>
+<del>It must be mentioned [BIP69](https://github.com/bitcoin/bips/blob/master/bip-0069.mediawiki), Lexicographical Indexing of Outputs was created for the same purpose, however random indexing is slightly more private. If a blockchain observer wants to know if a transaction is in a wallet, using the BIP is a track, because it uses a deterministic algorithm, while random indexing leaves no tracks.</del>
 
 #### Fee Rate Estimation	
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|

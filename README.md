@@ -19,13 +19,12 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 ## Support
 
 ### Address
-35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi  
-[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:35Yjiospc3bpBTvWZWngv28Z8Exa9vUzyi)
+bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2  
+[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
 
 #### Payment code (BIP47)
 
 [![BIP47 payment code](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=PM8TJVzLGqWR3dtxZYaTWn3xJUop3QP3itR4eYzX7XvV5uAfctEEuHhKNo3zCcqfAbneMhyfKkCthGv5werVbwLruhZyYNTxqbCrZkNNd2pPJA2e2iAh&qzone=1&margin=0&size=200x200&ecc=L)](https://paynym.is/+samouraiwallet)
-
 
 ## [Publicity And External Resources](PublicityExternalResources.md)
 

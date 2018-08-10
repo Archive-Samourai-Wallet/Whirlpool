@@ -24,7 +24,7 @@ Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://githu
 
 ### Address
 bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2  
-[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](http://srv1.yogh.io/#addr:id:bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
+[![address](http://api.qrserver.com/v1/create-qr-code/?color=000000&bgcolor=FFFFFF&data=bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2&qzone=1&margin=0&size=200x200&ecc=L)](https://oxt.me/address/bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2)
 
 #### Payment code (BIP47)
 
@@ -590,7 +590,7 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 
 ##### Pseudonymous Repositories
 
-BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
+BIP47 payment codes, being unique identifiers derived from the wallet seed, MAY be served up pseudonymously from a [repository](https://paynym.is) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
 
 
 ## IV. Samourai Wallet

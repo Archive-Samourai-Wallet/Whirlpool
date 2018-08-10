@@ -483,10 +483,10 @@ If any post-mix wallet produces a fee that does not fall into the sanity check, 
 #### Replace-by-Fee
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
 |---------------------------------|--------------------------------------|
-||Post-mix wallet SHOULD prevent its users to utilize RBF.|
+||Post-mix wallet SHOULD <del>prevent</del> allow its users to utilize RBF.|
 
-Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature. On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
-Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.
+Replace-by-Fee, [RBF](https://bitcoin.org/en/glossary/rbf) is a often used feature and should be provided for selective use. <del>On the one hand its usage is beneficial, on the other hand the way RBF is used by a wallet software helps blockchain analysis to identify the wallet software in used.  
+Creation of a common algorithmic utilization of RBF should be an interest of future research. Bram Cohen's [article](https://medium.com/@bramcohen/how-wallets-can-handle-transaction-fees-ff5d020d14fb) might be a good starting point.</del>
 
 #### Spending Unconfirmed Transactions
 |Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|

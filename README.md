@@ -549,7 +549,7 @@ BIP47 Stealth Addresses were proposed by Justus Ranvier and described in [BIP47]
 
 BIP47 Stealth Addresses differ from Dark Wallet Stealth Addresses in that both sides of a BIP47 payment channel handle address detection and synchronization rather than relying on any server-assisted Blockchain scanning. BIP47 provides the privacy advantages of Dark Wallet-style Stealth Addresses to Simplified Payment Verification and other light clients without necessitating the use of a trusted full node.
 
-Following the publishing of the BIP, BIP47 Stealth Addresses were [implemented](https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet](https://samouraiwallet.com) and have since gained traction through real usage with over 420 active channels having been created by privacy-seeking users.
+Following the publishing of the BIP, BIP47 Stealth Addresses were [implemented](https://github.com/Samourai-Wallet/samourai-wallet-android/tree/develop/app/src/main/java/com/samourai/wallet/bip47/rpc) in [Samourai Wallet](https://samouraiwallet.com) and have since gained traction through real usage with over 7000 active channels having been created by privacy-seeking users.
 
 It should be noted that Dark Wallet started work on [their own](https://github.com/darkwallet/darkwallet/commits/pcodes) BIP47 implementation during a short period in early 2016 when their project was momentarily revived. 
 

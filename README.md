@@ -12,6 +12,9 @@ TDevD,
 [Samourai Wallet](https://github.com/Samourai-Wallet),  
 [PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
+ZeroLeak,  
+[Samourai Wallet](https://github.com/Samourai-Wallet)
+
 ### Acknowledgements
 
 Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedbacks.

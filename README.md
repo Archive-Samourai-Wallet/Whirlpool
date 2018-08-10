@@ -51,8 +51,7 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
 &nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
-IV. [ZeroLink Compliance Checklist](#iv-zerolink-compliance-checklist)  
-V. [Samourai Wallet](#v-samourai-wallet)  
+IV. [Samourai Wallet](#v-samourai-wallet)  
 
 ## I. Introduction
 
@@ -588,57 +587,8 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 
 BIP47 payment codes, being unique identifiers derived from the BIP44 wallet seed, MAY be served up pseudonymously from a [repository](https://paymentcode.io) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
 
-## IV. ZeroLink Compliance Checklist
 
-It is crucial how wallets handle mixed out coins. ZeroLink's Post-Mix Wallet requirements aim to make sure that after-mix privacy loss does not happen.  
-
-### Bitcoin Wallets Interested In ZeroLink 
-
-|              Category                   | Requirement | [Samourai Wallet][11] | [Stratis: Breeze Wallet][12] | [Hidden Wallet][13] |
-|:---------------------------------------:|:-----------:|:---------------------:|:----------------------------:|:-------------------:|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted full node | &#9745;              | &#9745;             |
-| [Coin Selection][3]                     |    Basic    |                       |                              | by default strongly discourages change generation and input joining |
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor       |                              | &#9745;             |
-| [Transaction Broadcasting][1]           |  Uniformity |                       |                              |                     |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Change ScriptPubKey][5]                |  Uniformity | &#9745;               |                              | &#9745;             |
-| [Active ScriptPubKey][6]                |  Uniformity | &#9745;               | &#9745;                      | &#9745;             |
-| [Output Indexing][7]                    |  Uniformity |                       | &#9745;                      | &#9745;             |
-| [Fee Rate Estimation][8]                |  Uniformity |                       |                              |                     |
-| [Fee Calculation][9]                    |  Uniformity |                       |                              |                     |
-| [Replace-by-Fee][10]                    |  Uniformity | by default            | &#9745;                      | &#9745;             |
-
-### Popular Bitcoin Wallets
-
-|              Category                   | Requirement | Electrum | Bitcoin QT | CoinBase | Blockchain.info | Mycelium |
-|:---------------------------------------:|:-----------:|:--------:|:----------:|:--------:|-----------------|----------|
-| [Retrieving Transaction Information][2] |    Basic    | opt-in over trusted Electrum server | &#9745; | |  |          |
-| [Coin Selection][3]                     |    Basic    | opt-in coin control feature | opt-in coin control feature | |||
-| [Transaction Broadcasting][1]           |    Basic    | opt-in over Tor | opt-in over Tor |       | | opt-in over Tor |
-| [Transaction Broadcasting][1]           |  Uniformity |          |            |          |                 |          |
-| [Spending Unconfirmed Transactions][4]  |  Uniformity |  ?       | ?          | ?        | ?               | ?        |
-| [Change ScriptPubKey][5]                |  Uniformity |          |            |          |                 | ?        |
-| [Active ScriptPubKey][6]                |  Uniformity |          |            |          |                 | ?        |
-| [Output Indexing][7]                    |  Uniformity |          |            |          |                 |          |
-| [Fee Rate Estimation][8]                |  Uniformity |          |            |          |                 |          |
-| [Fee Calculation][9]                    |  Uniformity |          |            |          |                 |          |
-| [Replace-by-Fee][10]                    |  Uniformity | by default | by default | ?      | ?               | ?        |
-
-[1]:https://github.com/nopara73/ZeroLink#transaction-broadcasting
-[2]:https://github.com/nopara73/ZeroLink#retrieving-transaction-information
-[3]:https://github.com/nopara73/ZeroLink#coin-selection
-[4]:https://github.com/nopara73/ZeroLink#spending-unconfirmed-transactions
-[5]:https://github.com/nopara73/ZeroLink#change-scriptpubkeys 
-[6]:https://github.com/nopara73/ZeroLink#active-sriptpubkeys
-[7]:https://github.com/nopara73/ZeroLink#transaction-output-indexing
-[8]:https://github.com/nopara73/ZeroLink#fee-rate-estimation
-[9]:https://github.com/nopara73/ZeroLink#fee-calculation
-[10]:https://github.com/nopara73/ZeroLink#replace-by-fee
-[11]:https://github.com/Samourai-Wallet/
-[12]:https://github.com/stratisproject/Breeze
-[13]:https://github.com/nopara73/HiddenWallet
-
-## V. Samourai Wallet
+## IV. Samourai Wallet
 
 ### Implementation
 

@@ -53,7 +53,6 @@ III. [Wallet Privacy Framework](#iii-wallet-privacy-framework)
 &nbsp;&nbsp;&nbsp;A. [Pre-Mix Wallet](#a-pre-mix-wallet)  
 &nbsp;&nbsp;&nbsp;B. [Post-Mix Wallet](#b-post-mix-wallet)  
 &nbsp;&nbsp;&nbsp;C. [Stealth Addresses](#c-stealth-addresses)  
-IV. [Samourai Wallet](#v-samourai-wallet)  
 
 ## I. Introduction
 
@@ -555,10 +554,3 @@ Note that BIP47 [notification transactions](https://github.com/bitcoin/bips/blob
 ##### Pseudonymous Repositories
 
 BIP47 payment codes, being unique identifiers derived from the wallet seed, MAY be served up pseudonymously from a [repository](https://paynym.is) or key store of some kind. Such services are being rolled out presently with an eye towards the development of pseudonymous payments, refunds, and mixing.
-
-
-## IV. Samourai Wallet
-
-### Implementation
-
-Development on the Samourai Wallet implementation of ZeroLink is ongoing. The finished service will go under the name of WhirlPool.

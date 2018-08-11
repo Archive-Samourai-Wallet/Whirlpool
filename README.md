@@ -14,7 +14,8 @@ TDevD,
 [PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
 ZeroLeak,  
-[Samourai Wallet](https://github.com/Samourai-Wallet)
+[Samourai Wallet](https://github.com/Samourai-Wallet),  
+[PGP](https://keybase.io/zeroleak)
 
 ### Acknowledgements
 

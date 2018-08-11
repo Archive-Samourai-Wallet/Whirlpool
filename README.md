@@ -14,11 +14,12 @@ TDevD,
 [PGP](http://pgp.mit.edu/pks/lookup?op=get&search=0x72B5BACDFEDF39D7)
 
 ZeroLeak,  
-[Samourai Wallet](https://github.com/Samourai-Wallet)
+[Samourai Wallet](https://github.com/Samourai-Wallet),  
+[PGP](https://keybase.io/zeroleak)
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for tolerating my constant bugging and bothering to acquire their invaluable reviews, suggestions and feedbacks.
+Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedbacks.
 
 ## Support
 
@@ -389,43 +390,8 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 ### B. Post-Mix Wallet
 
 The privacy requirements of the post-mix wallet are stronger, than the pre-mix wallet's.  
-A post-mix wallet MUST NOT breach its users privacy and it SHOULD work in the same way as every other post-mix wallet. For example if only one wallet software is used as a post-mix wallet and it supports [Replace-by-Fee](https://github.com/bitcoin/bips/blob/master/bip-0125.mediawiki) Blockchain analysis cannot come to valuable conclusions. However if different wallet softwares are used as post-mix wallets and one of them does not support it, blockchain analysis can identify which wallet software is used as a post-mix wallet.  
-The first implementation of post-mix wallet will set precedents. In the future, when multiple implementations are created, it is important that these implementations are indistinguishable from the first implementation.  
 
-**Basic Post-Mix Wallet Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is the only wallet software that is used as a post-mix wallet of a specific mix.  
-**Post-Mix Wallet Uniformity Requirement** refers to the requirement that the wallet software must fulfil in order to avoid after-mix deanonymization, assuming the wallet software is NOT the only wallet software that is used as a post-mix wallet of a specific mix.  
-
-Redisigning the post-mix-wallet based on the [Clusterfuck Wallet idea](https://github.com/nopara73/ZeroLink/issues/42) and considering possible JoinMarket additions should be an interest of future research.
-
-#### Coin Selection
-|Basic Post-Mix Wallet Requirement|Post-Mix Wallet Uniformity Requirement|
-|---------------------------------|--------------------------------------|
-|Post-mix wallet MUST prevent joining inputs together.||
-
-![](http://i.imgur.com/BbSM9N4.png)
-
-If the post-mix wallet would function as a normal Bitcoin wallet, the observer would notice post-mix transactions, those are joining together mixed outputs. In this case the real anonymity set of all the users who participated in the same mixes would suffer.  
-Adding coin control feature to the post-mix wallet account in the same way Bitcoin Core does encourages more conscious post-mix wallet management. Nevertheless, users would eventually still join inputs together.  
-![Coin Control Feature](http://i.imgur.com/i67J7JS.png)  
-It is better to prevent input joining in post-mix wallets altogether. This, of course naturally restricts the useability of the wallet. This prevents the users from making bigger denomination payments at first, then they are constrained to spend a maximum of their biggest change amount. This is expected to be violated in many ways, such as a user could keep sending out its freshly mixed coins to another wallet and join their inputs together there. This restriction however is necessary in order to narrow the gap between the theoretical and real anonymity set of all users of the mixer.  
-
-To enhance useability of a post-mix wallet
-- the wallet MAY implement coin control feature, 
-- the wallet MAY offer the user to donate smaller change outputs, instead of getting them back. This could even finance the development of such wallet,  
-- the wallet MAY also implement a visualized transaction history, instead of a traditional wallet history.
-
----
-![](https://i.imgur.com/xvizcmu.png)
----
-![](https://i.imgur.com/WMv4vQU.png)
----
-
-##### Dead Change Attack
-
-![](http://i.imgur.com/3LtkqNA.png)
-
-While the recommended strict coin selection properly separates mixed coins from each other, it does not protect against the [dead change attack](https://www.dash.org/forum/threads/dead-change-an-anonymity-issue.3019/). Change outputs will be used for different purposes, therefore it is possible to connect those payments together. Fortunately it does not affect the anonymity set of other users who participated in the mix, but it does affect individual privacy.  
-To encourage more cautious user behavior post-mix wallet MAY implement a transaction labeling system, so users can decide manually what purcheses it does not care about if they are connected together by third party observers.  
+TBD: Whirlpool post-mix options
 
 ##### Additional Anonymity Set
 

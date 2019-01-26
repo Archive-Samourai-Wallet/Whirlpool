@@ -356,6 +356,11 @@ Alice and Bob are the same user, however the Tumbler does not know this.
 
 ![](https://i.imgur.com/xGhaSmS.jpg)
 
+### G. Constraints
+
+Each Coinjoin transaction must score 100% wallet efficiency as measured by [Boltzmann](https://github.com/Samourai-Wallet/boltzmann). 100% wallet efficiency is the maximum entropy score for the composition of the transaction's inputs and outputs.
+
+Each Coinjoin transaction must include 0 deterministic links as measured by Boltzmann.
 
 ## III. Wallet Privacy Framework
 

@@ -19,9 +19,9 @@ ZeroLeak,
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedbacks.
+Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedback.
 
-Special thanks to LaurentMT [OXT](http://oxt.me) for reviews, suggestions and feedbacks specific to Samourai's Whirlpool implementation.
+Special thanks to LaurentMT -- [OXT](http://oxt.me) for reviews, suggestions and feedback specific to Samourai's Whirlpool implementation.
 
 ## Support
 

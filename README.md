@@ -19,9 +19,9 @@ ZeroLeak,
 
 ### Acknowledgements
 
-Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedbacks.
+Special thanks for Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedback.
 
-Special thanks to LaurentMT [OXT](http://oxt.me) for reviews, suggestions and feedbacks specific to Samourai's Whirlpool implementation.
+Special thanks to LaurentMT -- [OXT](http://oxt.me) for reviews, suggestions and feedback specific to Samourai's Whirlpool implementation.
 
 ## Support
 
@@ -356,6 +356,11 @@ Alice and Bob are the same user, however the Tumbler does not know this.
 
 ![](https://i.imgur.com/xGhaSmS.jpg)
 
+### G. Constraints
+
+Each Coinjoin transaction must score 100% wallet efficiency as measured by [Boltzmann](https://github.com/Samourai-Wallet/boltzmann). 100% wallet efficiency is the maximum entropy score for the composition of the transaction's inputs and outputs.
+
+Each Coinjoin transaction must include 0 deterministic links as measured by Boltzmann.
 
 ## III. Wallet Privacy Framework
 
@@ -392,11 +397,22 @@ The Tumbler MAY be the third party who serves the addresses. In this case the Tu
 
 The privacy requirements of the post-mix wallet are stronger, than the pre-mix wallet's.  
 
-TBD: Whirlpool post-mix options
+##### Spending from post-mix wallet
 
-##### Additional Anonymity Set
+A post-mix wallet SHOULD provide every means to avoid merging outputs in a way which destroys the benefits of the achieved CoinJoin and diminishes privacy.
 
-A post-mix wallet MAY offer to make a user's first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination so additional anonymity set can be achieved. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who, it can only figure out which change belongs to which active output.  
+A post-mix wallet SHOULD provide the following means of spending outputs (from most important to least important):
+
+- [Stowaway](https://samouraiwallet.com/stowaway): also known as [PayJoin](https://joinmarket.me/blog/blog/payjoin/).
+- STONEWALLx2: 2-wallet STONEWALL.
+- [STONEWALL](https://samouraiwallet.com/stonewall): single-wallet STONEWALL.
+- any other type spend: only permitted when a single-wallet STONEWALL is not possible.
+
+Outputs from different denominated pools may be used.
+
+<del>##### Additional Anonymity Set</del>
+
+<del>A post-mix wallet MAY offer to make a user's first purchase to be a regular CoinJoin transaction, without the usage of fixed denomination so additional anonymity set can be achieved. In this CoinJoin every input transaction is the same denomination, therefore an observer will not be able to tell who wanted to pay who, it can only figure out which change belongs to which active output.</del>  
 
 ![](https://i.imgur.com/1IotuiI.png)
 

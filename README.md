@@ -37,7 +37,7 @@ bc1qh287jqsh6mkpqmd8euumyfam00fkr78qa9kqk2
 
 While [fungibility](https://en.wikipedia.org/wiki/Fungibility) is an essential property of good money, [Bitcoin](https://bitcoin.org/bitcoin.pdf) has its limitations in this area. Numerous fungibility improvements have been proposed; however none of them have addressed the privacy issues in full. ZeroLink is first to offer protections against all the different ways a user's privacy can be breached. The scope of ZeroLink is not limited to a single transaction, it extends to transaction chains and it addresses various network layer deanonymizations, however its scope is limited to Bitcoin's first layer. Even if an off-chain anonymity solution gets widely adopted, ultimately the entrance and exit transactions will always be settled on-chain. Therefore there will always be need for on-chain privacy.  
   
-Ideal fungibility requires every Bitcoin transaction to be indistinguishable from each other, but it is an unrealistic goal. ZeroLink's objective is to break all links between separate sets of coins. ZeroLink presents a wallet privacy framework coupled with Chaumian CoinJoin, which was first introduced in 2013 by Gregory Maxwell. A mixing round runs within seconds, its anonymity set can go beyond a single CoinJoin transaction's if needed, and its DoS resilience presumes a transaction fee environment above $1 Bitcoin.  
+Ideal fungibility requires every Bitcoin transaction to be indistinguishable from each other, but it is an unrealistic goal. ZeroLink's objective is to break all links between separate sets of coins. ZeroLink presents a wallet privacy framework coupled with Chaumian CoinJoin, which was first introduced in 2013 by Gregory Maxwell. A mixing round runs within seconds, its anonymity set can go beyond a single CoinJoin transaction's if needed, and its DoS resilience presumes a transaction fee environment above <del>$1</del> [note: not sure what $-amounts are doing here. Bitcoin fees are measured in sats.] Bitcoin.  
   
 Hopefully, ZeroLink will enable the usage of Bitcoin in a fully anonymous way for the first time.  
 
@@ -245,7 +245,7 @@ The same strategy is applied as in DoS 1 and DoS 2. The only difference is that 
 
 A ban SHOULD time out after one month.  
 
-To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. These metrics are calculated in this document by assuming one bitcoin Tumbler denomination, $1 network transaction fees and that the attacker is willing to keep up the attack for one day.  
+To find the optimal severity of utxo banning the attacker's Initial Bitcoin Requirements and Attack Costs are helpful metrics. These metrics are calculated in this document by assuming one bitcoin Tumbler denomination, <del>$1</del> network transaction fees and that the attacker is willing to keep up the attack for one day.  
 The most sophisticated attacker can delay the execution of a round maximum up to three minutes. Therefore there can be a minimum of `24h*(60m/3m)=`480 rounds per day an attacker must to disrupt.  
 For simplicity this document assumes a malicious Alice only registered one utxo. If there are any other utxos Alice registered with, the same ban applies to them.  
 
@@ -257,20 +257,20 @@ At level zero severity the attacker can re-register and disrupt a round as many 
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-I.    |1btc                        |$0
+I.    |1btc                        |<del>$0</del>
 
 #### Severity 1: Banning the malicious utxo
 
 ![](http://i.imgur.com/SBqVPwb.png)
 
-In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`$96.  
+In this case the most effective attack if the attacker holds 480btc. Because nobody has 480btc happened to be predivided perfectly to 1btc outputs, the attacker must first predivide them and attack with those utxos. Predividing such amount is 1 transaction with 480 outputs. A transaction output is [approximately 20%](https://bitcoin.stackexchange.com/q/1195/26859) of a transaction, therefore the cost of this attack is `480out*0.2=`<del>$96</del>.  
 
-The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. By not factoring in the predivision, the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs $476.
+The second attack can be executed with less Initial Bitcoin Requirements. The attacker can first disrupt a round, then make a transaction, so the output of that transaction is not banned, then register that output to the next round. Of course Bitcoin transactions are not instant and a Tumbler only accepts confirmed outputs, thus assuming every Bitcoin transaction confirms within ten minutes, the attacker must have around four bitcoins to begin with. By not factoring in the predivision, the attacker must make `480-4=`476 transactions to disrupt the tumbling for a day. That costs <del>$476</del>.
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-I.    |480btc                      |$96
-II.   |4btc                        |$476
+I.    |480btc                      |<del>$96</del>
+II.   |4btc                        |<del>$476</del>
 
 #### Severity 2: Banning the malicious utxo and all its sibling utxos
 
@@ -280,14 +280,14 @@ The first attack, where the attacker holds 480btc does not work anymore. Because
 
 ![](http://i.imgur.com/Uz8uw80.png)
 
-Therefore what the attacker would have to do is to predivide its coins in a different way. It cannot create one big transaction, instead it creates 480 transactions, thus its attack cost is $480.  
+Therefore what the attacker would have to do is to predivide its coins in a different way. It cannot create one big transaction, instead it creates 480 transactions, thus its attack cost is <del>$480</del>.  
 
 The second attack results in exactly 480 transactions, too.  
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-I.    |480btc                      |$480
-II.   |4btc                        |$480
+I.    |480btc                      |<del>$480</del>
+II.   |4btc                        |<del>$480</del>
 
 #### Severity 3,4,5,6...
 
@@ -299,8 +299,8 @@ In this case the attacker has to do one extra transaction to be able to use its 
 
 Attack|Initial Bitcoin Requirements|Attack Costs
 ------|----------------------------|---------------
-I.    |480btc                      |$480
-II.   |4btc                        |$952
+I.    |480btc                      |<del>$480</del>
+II.   |4btc                        |<del>$952</del>
 
 The higher the severity is, the higher the Attack Costs are.
 
@@ -318,7 +318,7 @@ By calculating the metrics the Tumbler denomination of one bitcoin was assumed. 
 
 #### Dependence on high Bitcoin transaction fees
 
-Attack Cost calculation assumed $1 Bitcoin transaction fees. The proposed DoS defense in a zero fee environment is not sufficient.
+Attack Cost calculation assumed <del>$1</del> Bitcoin transaction fees. The proposed DoS defense in a zero fee environment is not sufficient.
 
 #### Can this system be bypassed with Bitcoin exchanges/mixers or similar services?
 
@@ -345,7 +345,7 @@ It is possible to deanonymize a user if every participant of the mix is the atta
 Furthermore executing a covert Sybil attack as a Tumbler is not evident, it depends on the protocol implementation. Overt Sybil attack as a Tumbler is always possible, however in that case the Tumbler is accountable.  
 
 To execute this attack: when Tumbler notices an input is registered that it wants to deanonymize, it must refuse all following input registration and all the Connection Confirmation that has already been registered and is not from the target. Refusing input registration can happen for many raeason, therefore it can be done in a covert way, however refusing Connection Confirmation cannot. It can only happen if the input has been spent, therefore malicious Tumbler can be noticed. Clients whose Connection Confirmation are refused and they did not prematurely spent their inputs SHOULD NOT use the Tumbler anymore.  
-The cost of the Sybil attack at $1 tranasction fees is `1.2 * number of sybils * $1`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `$1*(100*0.2)`= $20, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about $100, so the cost of this attack is $120 per round.  
+The cost of the Sybil attack at <del>$1</del> tranasction fees is `1.2 * number of sybils * <del>$1</del>`. If the number of sybils is 100 and the denomination is one bitcoin, the Tumbler must first predivide 100btc into 100 one btc outputs, which is about `<del>$1</del>*(100*0.2)`= <del>$20</del>, wait until the transaction confirms, then it must pay the CoinJoin fees, which is about <del>$100</del>, so the cost of this attack is <del>$120</del> per round.  
 This pattern can be noticed by the post-mix wallet. In this case the post mix wallet MAY require re-mixing the coins.  
 
 There are various other ways to address Tumbler Sybil attacks in expense of the complexity of pre-mix wallet implementations. Defending Sybil attack should be an interest of future research.

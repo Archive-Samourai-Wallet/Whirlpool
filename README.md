@@ -405,9 +405,9 @@ A post-mix wallet SHOULD provide every means to avoid merging outputs in a way w
 A post-mix wallet SHOULD provide the following means of spending outputs (from most important to least important):
 
 - [Stowaway](https://samouraiwallet.com/stowaway): also known as [PayJoin](https://joinmarket.me/blog/blog/payjoin/).
-- STONEWALLx2: 2-wallet STONEWALL.
+- [STONEWALLx2](https://mamot.fr/@laurentmt/101411217125803868): 2-wallet STONEWALL.
 - [STONEWALL](https://samouraiwallet.com/stonewall): single-wallet STONEWALL.
-- any other type spend: only permitted when a single-wallet STONEWALL is not possible.
+- any other type spend: only permitted when a single-wallet STONEWALL is not possible and SHOULD be strongly discouraged.
 
 Outputs from different denominated pools may be used.
 

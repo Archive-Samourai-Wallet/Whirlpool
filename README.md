@@ -363,6 +363,8 @@ Each Coinjoin transaction must score 100% wallet efficiency as measured by [Bolt
 
 Each Coinjoin transaction must include 0 deterministic links as measured by Boltzmann.
 
+Each Coinjoin transaction must not contain more than one input from a same immediate parent transaction.
+
 ## III. Wallet Privacy Framework
 
 ### A. Pre-Mix Wallet

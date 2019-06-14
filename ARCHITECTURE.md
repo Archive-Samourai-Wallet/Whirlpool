@@ -4,8 +4,9 @@
 ## I. Usage
 Whirlpool can be managed:
 - from desktop: `whirlpool-gui`
-- from REST API for developers: `whirlpool-cli API`
 - from command line: `whirlpool-cli`
+- from REST API for developers: `whirlpool-cli API`
+- from JAVA & Android: `whirlpool-client`
 
 ![](charts/usage.png)
 

@@ -20,3 +20,6 @@ Whirlpool is modular:
 
 ![](charts/architecture.png)
 
+
+## III. Cycle dialog
+![](charts/dialog.png)

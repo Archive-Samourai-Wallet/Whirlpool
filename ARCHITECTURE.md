@@ -22,4 +22,5 @@ Whirlpool is modular:
 
 
 ## III. Cycle dialog
+Dialog is described in `whirlpool-protocol`, implemented in `whirlpool-client` and `whirlpool-server`.
 ![](charts/dialog.png)

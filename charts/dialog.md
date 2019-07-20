@@ -11,8 +11,11 @@ sequenceDiagram
 
     Note left of Client: Trying to join a mix...
     Client->>+Server: ConfirmInputRequest
+    Note over Client,Server: ... Freeriders wait here for a free mix
+    
     Server -->>-Client: ConfirmInputResponse
     Note left of Client: Joined a mix!
+    Note over Client,Server: ... Waiting for enough peers
 
     Note over Client,Server: ... Anonymity set reached!
 

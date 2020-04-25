@@ -38,7 +38,7 @@ Whirlpool requires the use of a blinded coordinator server to pass messages betw
 ### Windows, OSX, Linux
 
 - An electron/react GUI desktop client is available on Windows, OSX, and most flavors of Linux. You can find binaries for [the most recent release](https://github.com/Samourai-Wallet/whirlpool-gui/releases/latest)
- hosted on the [`whirlpool-gui`](https://github.com/Samourai-Wallet/whirlpool-gui/) repository.
+ hosted on the [`whirlpool-gui`](https://code.samourai.io/whirlpool/whirlpool-gui/) repository.
 
 ### Mobile
 
@@ -46,16 +46,16 @@ Whirlpool requires the use of a blinded coordinator server to pass messages betw
 
 ### Developers
 
-- A [REST API](https://github.com/Samourai-Wallet/whirlpool-client-cli/blob/develop/README-API.md) is made available to quickly bootstrap your own applications on top of Whirlpool.
-- Java and Android libraries can be found within the [`whirlpool-client`](https://github.com/Samourai-Wallet/whirlpool-client) repository.
-- A command line client is also available. You can find more information within the [`whirlpool-client-cli`](https://github.com/Samourai-Wallet/whirlpool-client-cli) repository.
+- A [REST API](https://code.samourai.io/whirlpool/whirlpool-client-cli/blob/develop/README-API.md) is made available to quickly bootstrap your own applications on top of Whirlpool.
+- Java and Android libraries can be found within the [`whirlpool-client`](https://code.samourai.io/whirlpool/whirlpool-client) repository.
+- A command line client is also available. You can find more information within the [`whirlpool-client-cli`](https://code.samourai.io/whirlpool/whirlpool-client-cli) repository.
 
 ## Implementing Whirlpool into your products and services
 
 Samourai has strived to create a toolkit that can easily be implemented and embedded at any level of your existing technology or product stack. We would love to discuss how you plan to use Whirlpool within your own products and services and how we can help. Email us at implementations@samourai.io
 
 ## Acknowledgements
-Whirlpool theory is based on a fork of the original [ZeroLink](https://github.com/Samourai-Wallet/Whirlpool/tree/25723b8832c59f6920e341e1b7f565f51f117cea) framework which was originally co-written by [nopara73](https://github.com/nopara73) and [TDevD](https://github.com/samouraidev), with thanks to Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedback.
+Whirlpool theory is based on a fork of the original [ZeroLink](https://code.samourai.io/whirlpool/Whirlpool/tree/25723b8832c59f6920e341e1b7f565f51f117cea) framework which was originally co-written by [nopara73](https://github.com/nopara73) and [TDevD](https://github.com/samouraidev), with thanks to Adam Gibson and Chris Belcher from [JoinMarket](https://github.com/JoinMarket-Org/joinmarket), Ethan Heilman from [TumbleBit](https://eprint.iacr.org/2016/575.pdf), Dan Gershony from [Breeze Wallet](https://github.com/stratisproject/Breeze/) and Kristov Atlas from [Open Bitcoin Privacy Project](http://openbitcoinprivacyproject.org/) for their reviews, suggestions and feedback.
 
 Significant changes have been made since the fork from ZeroLink. We thank [TDevD](https://github.com/samouraidev) and [ZeroLeak](https://github.com/zeroleak) of [Samourai](https://samouraiwallet.com), and [LaurentMT](https://github.com/laurentMT) of OXT.me for their continued contributions.
 

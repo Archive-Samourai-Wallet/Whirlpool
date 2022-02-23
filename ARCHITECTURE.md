@@ -21,7 +21,69 @@ Whirlpool is modular:
 ![](charts/architecture.png)
 
 
-## III. Cycle dialog
+## III. Pre-cycle
+#### 1. Get pools
+![](charts/pools.png)
+
+- Client submits `GET /rest/pools`
+- Client receives [`PoolsResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PoolsResponse.java):
+    - `pools[]`: array of [`PoolInfo`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PoolInfo.java)
+        - poolId: pool identifier
+        - denomination: POSTMIX value
+        - feeValue: Whirlpool fee
+        - mustMixBalanceMin: PREMIX min value
+        - mustMixBalanceCap: PREMIX max value
+        - mustMixBalanceMax: deprecated
+        - minAnonymitySet: pool anonymity set
+        - minMustMix: min count of non-freeriders per mix
+        - tx0MaxOutputs: max count of POSTMIX per Tx0
+        - nbRegistered: currently registered users (including freeriders)
+        - mixAnonymitySet: deprecated
+        - mixStatus: current mix status
+        - elapsedTime: current mix duration
+        - nbConfirmed: currently confirmed users for next mix
+
+
+#### 2. Create Tx0
+![](charts/tx0.png)
+
+- Client submits [`Tx0DataRequestV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataRequestV2.java):
+    - `scode`: discount code (optional)
+    - `partnerId`: partner identifier (`SAMOURAI`, `SPARROW`...)
+- Client receives [`Tx0DataResponseV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataResponseV2.java):
+    - `tx0Datas[]`: array of [`Tx0DataResponseV2.Tx0Data`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataResponseV2.java#L13)
+        - `poolId`: pool identifier
+        - `feePaymentCode`: payment code for `feePayload64` obfuscation
+        - `feeValue`: Whirlpool fee
+        - `feeChange`: fake fee value when `feeValue=0`
+        - `feeDiscountPercent`: %discount applied
+        - `message`: scode info
+        - `feePayload64`: payload for OP_RETURN
+        - `feeAddress`: fee destination
+- Client creates the TX0
+    - [1-N] deposit inputs
+    - [1-N] PREMIX outputs (max count `PoolInfo.tx0MaxOutputs`) of the same value (`PoolInfo.mustMixBalanceMin <= value <= PoolInfo.mustMixBalanceCap`)
+    - 1 Whirlpool fee output of `feeValue` to `feeAddress`, when `feeValue>0`
+    - 1 fake Whirlpool fee output of `feeChange` to DEPOSIT, when `feeValue=0`
+    - 1 OP_RETURN with `xorMask(feePayload64, input[0].key, feePaymentCode)`
+    - eventual change output to DEPOSIT
+- Client broadcasts the TX0
+
+#### 3. CheckOutput
+
+As stated in Cycle dialog, client should **NEVER** submit a `receiveAddress` already known by coordinator.  This means that client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
+Reusing an already known `receiveAddress` will get the client blamed, then banned.  
+
+To make sure a `receiveAddress` is unknown to the server, we suggest using the CheckOutput service at client startup.  
+We also suggest to use it in case of REGISTER_OUTPUT failure.
+
+![](charts/checkOutput.png)
+
+- Client submits `POST /rest/checkOutput`
+- Client receives HTTP 200 if output is unknown
+
+
+## IV. Cycle dialog
 Dialog is:
 - over STOMP websocket
 - described in `whirlpool-protocol`
@@ -33,6 +95,8 @@ This is the standard mix process.
 
 #### 1. CONNECT & REGISTER_INPUT
 ![](charts/dialog1_registerInput.png)
+
+- Client connects to /ws/connect
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
     - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo
@@ -104,13 +168,3 @@ Each client should reveal its registered output to coordinator, which will find 
 #### 2. Mix failure
 ![](charts/dialog6_fail.png)
 - Client receives [`FailMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/FailMixStatusNotification.java)
-
-
-#### 3. CheckOutput
-![](charts/dialog7_checkOutput.png)
-
-As stated before, client should **NEVER** submit a `receiveAddress` already known by coordinator.  This means that client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
-Reusing an already known `receiveAddress` will get the client blamed, then banned.  
-
-To make sure a `receiveAddress` is unknown to the server, we suggest using the CheckOutput service at client startup.  
-We also suggest to use it if your client fails to REGISTER_OUTPUT.

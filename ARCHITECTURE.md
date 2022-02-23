@@ -108,6 +108,7 @@ Each client should reveal its registered output to coordinator, which will find 
 
 #### 3. CheckOutput
 ![](charts/dialog7_checkOutput.png)
+
 As stated before, client should **NEVER** submit a `receiveAddress` already known by coordinator.  This means that client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
 Reusing an already known `receiveAddress` will get the client blamed, then banned.  
 

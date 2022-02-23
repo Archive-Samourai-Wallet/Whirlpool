@@ -61,7 +61,7 @@ Whirlpool is modular:
         - `feePayload64`: payload for OP_RETURN
         - `feeAddress`: fee destination
 - Client creates the TX0
-    - [1-N] deposit inputs
+    - [1-N] deposit inputs (confirmed or not)
     - [1-N] PREMIX outputs (max count `PoolInfo.tx0MaxOutputs`) of the same value (`PoolInfo.mustMixBalanceMin <= value <= PoolInfo.mustMixBalanceCap`)
     - 1 Whirlpool fee output of `feeValue` to `feeAddress`, when `feeValue>0`
     - 1 fake Whirlpool fee output of `feeChange` to DEPOSIT, when `feeValue=0`
@@ -99,7 +99,7 @@ This is the standard mix process.
 - Client connects to /ws/connect
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
-    - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo
+    - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (confirmed)
     - `signature`: message "$poolId" signed with utxo's key
     - `liquidity`: true for PREMIX, false for POSTMIX
 

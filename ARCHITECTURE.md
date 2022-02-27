@@ -21,7 +21,28 @@ Whirlpool is modular:
 ![](charts/architecture.png)
 
 
-## III. Pre-cycle
+## III. General
+### I. Coordinator
+Coordinator urls are defined in [`WhirlpoolServer`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java) (clearnet + Tor onion hidden services).
+Coordinator is accessed through:
+- REST over https: for pre-cycle and REGISTER_OUTPUT
+- websocket: for cycle dialog
+
+### 2. REST
+Rest errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+
+### 3. Websocket
+Websocket uses:
+- over STOMP websocket
+- SockJS is supported (optional)
+
+Each STOMP message:
+- requires STOMP header: `protocolVersion` (defined in [`WhirlpoolProtocol`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/WhirlpoolProtocol.java#L14)), only bumps on breaking protocol changes
+- your client should check that `protocolVersion` matches for incoming coordinator messages
+- websocket errors are sent to client's queue `/private/reply` conforming to [`ErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ErrorResponse.java).
+
+
+## IV. Pre-cycle
 #### 1. Get pools
 ![](charts/pools.png)
 
@@ -83,20 +104,21 @@ We also suggest to use it in case of REGISTER_OUTPUT failure.
 - Client receives HTTP 200 if output is unknown
 
 
-## IV. Cycle dialog
+## V. Cycle dialog
 Dialog is:
-- over STOMP websocket
 - described in `whirlpool-protocol`
 - implemented in `whirlpool-client` with classes _`MixProcess.java`_, _`MixSession.java`_, _`MixClient.java`_
-- each message requires STOMP header: $protocolVersion
+
 
 ### A. Succesful mix process
 This is the standard mix process.
 
-#### 1. CONNECT & REGISTER_INPUT
+
+#### 1. REGISTER_INPUT
 ![](charts/dialog1_registerInput.png)
 
-- Client connects to /ws/connect
+- Client connects to wss://${serverUrl}/ws/connect (no header required)
+- Client subscribes to /private/reply (header: `poolId`)
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
     - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (confirmed)

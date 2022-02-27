@@ -28,13 +28,19 @@ Coordinator is accessed through:
 - REST over https: for pre-cycle and REGISTER_OUTPUT
 - websocket: for cycle dialog
 
+Dialog with coordinator is described in `whirlpool-protocol`
+
+
 ### 2. REST
-Rest errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+- REST errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+- REST client for Whirlpool is implemented in `whirlpool-client` with class [`ServerApi.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/whirlpool/ServerApi.java)
 
 ### 3. Websocket
 Websocket uses:
-- over STOMP websocket
+- STOMP over websocket
 - SockJS is supported (optional)
+- Websocket client for Whirlpool is implemented in `whirlpool-client` with classes _`MixProcess.java`_, _`MixSession.java`_, _`MixClient.java`_
+
 
 Each STOMP message:
 - requires STOMP header: `protocolVersion` (defined in [`WhirlpoolProtocol`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/WhirlpoolProtocol.java#L14)), only bumps on breaking protocol changes
@@ -105,10 +111,6 @@ We also suggest to use it in case of REGISTER_OUTPUT failure.
 
 
 ## V. Cycle dialog
-Dialog is:
-- described in `whirlpool-protocol`
-- implemented in `whirlpool-client` with classes _`MixProcess.java`_, _`MixSession.java`_, _`MixClient.java`_
-
 
 ### A. Succesful mix process
 This is the standard mix process.

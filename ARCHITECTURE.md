@@ -48,6 +48,11 @@ Each STOMP message:
 - websocket errors are sent to client's queue `/private/reply` conforming to [`ErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ErrorResponse.java).
 
 
+Client can open multiple websocket connexions to (re)mix in multiple pools simultaneously.  
+We recommend a maximum of 1 PREMIX utxo per pool + 1 POSTMIX utxo per pool. Registering more inputs won't really speed-up the mixing.
+
+We suggest reconnecting after waiting for more than 
+
 ## IV. Pre-cycle
 #### 1. Get pools
 ![](charts/pools.png)
@@ -113,7 +118,8 @@ We also suggest to use it in case of REGISTER_OUTPUT failure.
 ## V. Cycle dialog
 
 ### A. Succesful mix process
-This is the standard mix process.
+This is the standard mix process.  
+If the client gets disconnected for some reason, it has to restart the whole cycle dialog.
 
 
 #### 1. REGISTER_INPUT
@@ -123,9 +129,13 @@ This is the standard mix process.
 - Client subscribes to /private/reply (header: `poolId`)
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
-    - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (confirmed)
+    - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (must have >= 1 confirmations)
     - `signature`: message "$poolId" signed with utxo's key
     - `liquidity`: true for PREMIX, false for POSTMIX
+- Client is now automatically queued for mixing and keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java). 
+It takes generally a few minutes to be selected for the first mix (and a few hours for a free remix).
+
+keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java)
 
 #### 2. CONFIRM_INPUT
 ![](charts/dialog2_confirmInput.png)
@@ -143,14 +153,13 @@ This is the standard mix process.
 We use this to prevent Client to mix with its own wallet when using multiple instances simultaneously (Android, CLI).  
 It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha256(premix00Bech32))`
 
-- Client submits [`ConfirmInputResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputResponse.java):
+- Client receives [`ConfirmInputResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputResponse.java) and it is now guaranteed to be in the mix:
     - `signedBordereau64`: chaumian signature of `blindedBordereau64` for the mix
-
 
 #### 3. REGISTER_OUTPUT
 ![](charts/dialog3_registerOutput.png)
 - Client receives [`RegisterOutputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/RegisterOutputMixStatusNotification.java):
-    - `inputsHash`: hash of all mixs inputs = `sha512(join(sort(inputHash+inputIndex)))` used as anonymous mix round identifier.
+    - `inputsHash`: hash of all mixs inputs = `sha512(join(sort(inputHash+inputIndex)))` used as an anonymous verifiable mix round identifier.
 
 - Client increments it's local POSTMIX counter to make sure that it won't ever submit again this `receiveAddress`, even if mix fails.
 
@@ -174,7 +183,7 @@ It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha
     - `mixId`
     - `witnesses64`
 - Client receives [`SuccessMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/SuccessMixStatusNotification.java)
-
+- Client disconnects
 
 ### B. Mix failure
 
@@ -192,3 +201,4 @@ Each client should reveal its registered output to coordinator, which will find 
 #### 2. Mix failure
 ![](charts/dialog6_fail.png)
 - Client receives [`FailMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/FailMixStatusNotification.java)
+- Client disconnects and restarts the whole cycle dialog.

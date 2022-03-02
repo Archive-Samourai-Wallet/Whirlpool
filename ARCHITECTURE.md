@@ -22,7 +22,7 @@ Whirlpool is modular:
 
 
 ## III. General
-### I. Coordinator
+#### I. Coordinator
 Coordinator urls are defined in [`WhirlpoolServer`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java) (clearnet + Tor onion hidden services).
 Coordinator is accessed through:
 - REST over https: for pre-cycle and REGISTER_OUTPUT
@@ -31,11 +31,12 @@ Coordinator is accessed through:
 Dialog with coordinator is described in `whirlpool-protocol`
 
 
-### 2. REST
+#### 2. REST
 - REST errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
 - REST client for Whirlpool is implemented in `whirlpool-client` with class [`ServerApi.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/whirlpool/ServerApi.java)
 
-### 3. Websocket
+
+#### 3. Websocket
 Websocket uses:
 - STOMP over websocket
 - SockJS is supported (optional)
@@ -52,6 +53,10 @@ Client can open multiple websocket connexions to (re)mix in multiple pools simul
 We recommend a maximum of 1 PREMIX utxo per pool + 1 POSTMIX utxo per pool. Registering more inputs won't really speed-up the mixing.
 
 We suggest reconnecting after waiting for more than 
+
+#### 4. Messages
+Each message field suffixed as "64" is encoded with Z85.
+
 
 ## IV. Pre-cycle
 #### 1. Get pools
@@ -79,7 +84,7 @@ We suggest reconnecting after waiting for more than
 #### 2. Create Tx0
 ![](charts/tx0.png)
 
-- Client submits [`Tx0DataRequestV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataRequestV2.java):
+- Client submits `POST /rest/tx0` [`Tx0DataRequestV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataRequestV2.java) to preview TX0:
     - `scode`: discount code (optional)
     - `partnerId`: partner identifier (`SAMOURAI`, `SPARROW`...)
 - Client receives [`Tx0DataResponseV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataResponseV2.java):
@@ -99,7 +104,14 @@ We suggest reconnecting after waiting for more than
     - 1 fake Whirlpool fee output of `feeChange` to DEPOSIT, when `feeValue=0`
     - 1 OP_RETURN with `xorMask(feePayload64, input[0].key, feePaymentCode)`
     - eventual change output to DEPOSIT
-- Client broadcasts the TX0
+- Client submits `POST /rest/tx0/push` [`Tx0PushRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0PushRequest.java):
+    - tx64: transaction to push
+    - poolId: pool identifier
+- On success: Client receives [`PushTxSuccessResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PushTxSuccessResponse.java) on success:
+    - txid: transaction id successfully pushed
+- On error: Client receives [`PushTxErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PushTxErrorResponse.java) on error:
+    - pushTxErrorCode: failure reason
+    - voutsAddressReuse: (optional) output indexes with address-reuse
 
 #### 3. CheckOutput
 

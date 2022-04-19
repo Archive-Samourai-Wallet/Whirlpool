@@ -43,16 +43,18 @@ Websocket uses:
 - Websocket client for Whirlpool is implemented in `whirlpool-client` with classes _`MixProcess.java`_, _`MixSession.java`_, _`MixClient.java`_
 
 
-Each STOMP message:
-- requires STOMP header: `protocolVersion` (defined in [`WhirlpoolProtocol`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/WhirlpoolProtocol.java#L14)), only bumps on breaking protocol changes
-- your client should check that `protocolVersion` matches for incoming coordinator messages
-- websocket errors are sent to client's queue `/private/reply` conforming to [`ErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ErrorResponse.java).
+Each STOMP messages from client:
+- requires StompHeader `protocolVersion`: defined in [`WhirlpoolProtocol`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/WhirlpoolProtocol.java#L14), only bumps on breaking protocol changes.
 
+Each STOMP message from coordinator:
+- defines StompHeader `protocolVersion`: your client should check it to detect any beaking coordinator upgrade.
+- defines StompHeader `messageType`: this is the payload type (Java class name).
 
-Client can open multiple websocket connexions to (re)mix in multiple pools simultaneously.  
-We recommend a maximum of 1 PREMIX utxo per pool + 1 POSTMIX utxo per pool. Registering more inputs won't really speed-up the mixing.
+Websocket errors are sent to client's queue `/private/reply` as [`ErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ErrorResponse.java).
 
-We suggest reconnecting after waiting for more than 
+Client can open multiple websocket connexions to (re)mix in multiple pools simultaneously. We recommend a maximum of 1 PREMIX utxo per pool + 1 POSTMIX utxo per pool. Registering more inputs won't speed-up the mixing.
+
+We suggest reconnecting after waiting for a mix for more than 1 hour.
 
 #### 4. Messages
 Each message field suffixed as "64" is encoded with Z85.
@@ -138,7 +140,7 @@ If the client gets disconnected for some reason, it has to restart the whole cyc
 ![](charts/dialog1_registerInput.png)
 
 - Client connects to wss://${serverUrl}/ws/connect (no header required)
-- Client subscribes to /private/reply (header: `poolId`)
+- Client subscribes to /private/reply (STOMP header: `poolId`)
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
     - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (must have >= 1 confirmations)

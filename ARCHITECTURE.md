@@ -32,7 +32,7 @@ Dialog with coordinator is described in `whirlpool-protocol`
 
 
 #### 2. REST
-- REST errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+- All REST errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
 - REST client for Whirlpool is implemented in `whirlpool-client` with class [`ServerApi.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/whirlpool/ServerApi.java)
 
 
@@ -140,7 +140,7 @@ If the client gets disconnected for some reason, it has to restart the whole cyc
 ![](charts/dialog1_registerInput.png)
 
 - Client connects to wss://${serverUrl}/ws/connect (no header required)
-- Client subscribes to /private/reply (STOMP header: `poolId`)
+- Client subscribes to `/private/reply` (STOMP header: `poolId`)
 - Client submits [`RegisterInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RegisterInputRequest.java):
     - `poolId`: obtained from /rest/pools
     - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (must have >= 1 confirmations)
@@ -148,6 +148,7 @@ If the client gets disconnected for some reason, it has to restart the whole cyc
     - `liquidity`: true for PREMIX, false for POSTMIX
 - Client is now automatically queued for mixing and keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java). 
 It takes generally a few minutes to be selected for the first mix (and a few hours for a free remix).
+- If UTXO is banned, client will receive error {"message": "Banned from service. <optional details>"} to `/private/reply`
 
 keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java)
 
@@ -216,3 +217,7 @@ Each client should reveal its registered output to coordinator, which will find 
 ![](charts/dialog6_fail.png)
 - Client receives [`FailMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/FailMixStatusNotification.java)
 - Client disconnects and restarts the whole cycle dialog.
+
+
+#### 3. Ban policy
+Client should avoid disconnecting after receiving `RegisterOutputMixStatusNotification`. If client disconnects during `REGISTER_OUTPUT` or `SIGNING`, it will ruin the mix and client may be temporarily banned after too many disconnects.

@@ -122,8 +122,8 @@ Each message field suffixed as "64" is encoded with Z85.
 
 #### 3. CheckOutput
 
-As stated in Cycle dialog, client should **NEVER** submit a `receiveAddress` already known by coordinator.  This means that client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
-Reusing an already known `receiveAddress` will get the client blamed, then banned.  
+As stated in Cycle dialog, any `receiveAddress` already known by coordinator will be declined. The client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
+Reusing an already known `receiveAddress` will be rejected, and the client will be blamed/banned when causing mixing failures.  
 
 To make sure a `receiveAddress` is unknown to the server, we suggest using the CheckOutput service at client startup.  
 We also suggest to use it in case of REGISTER_OUTPUT failure.
@@ -164,11 +164,12 @@ keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.
     - `mixId`: unique identifier of the mix round to join
     - `publicKey64`: public key to use for chaumian blinding
 
+- Client generates a fresh `bordereau` which must be unique, such as 30 random bytes
 - Client generates a fresh POSTMIX `receiveAddress` (bech32) which was **NEVER used** yet, including in failed mixs. See checkOutput for this.
 - Client generates a fresh `RSABlindingParameters` from `publicKey64`
 - Client submits [`ConfirmInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputRequest.java):
     - `mixId`
-    - `blindedBordereau64` = `chaumianBlind(receiveAddress, RSABlindingParameters)`
+    - `blindedBordereau64` = `chaumianBlind(bordereau, RSABlindingParameters)`
     - `userHash`: identifier which should be unique for {wallet, mixId}.  
 We use this to prevent Client to mix with its own wallet when using multiple instances simultaneously (Android, CLI).  
 It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha256(premix00Bech32))`
@@ -185,10 +186,12 @@ It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha
 
 - Client submits [`RegisterOutputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RegisterOutputRequest.java) through a different identity:
     - `inputsHash`
+    - `bordereau64`: the bordereau generated during CONFIRM_INPUT
     - `unblindedSignedBordereau64` = `chamianUnblind(signedBordereau64, RSABlindingParameters)`
     - `receiveAddress`
 
-- If `RegisterOutputRequest` fails, Client should run `CheckOutput` process (see below).
+- If `RegisterOutputRequest` fails because of reusing existing `receiveAddress`, Client can retry submitting `RegisterOutputRequest` with a different `receiveAddress`.  
+If Client cannot find a fresh `receiveAddress` before mix is over, it should run `CheckOutput` process to fix it's local postmix counter (see below).
 
 #### 4. SIGNING & SUCCESS
 ![](charts/dialog4_signing.png)

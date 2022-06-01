@@ -32,7 +32,9 @@ Dialog with coordinator is described in `whirlpool-protocol`
 
 
 #### 2. REST
-- All REST errors conform to [`RestErrorMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+- All REST errors conform to [`RestErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
+    - `errorCode`: see [`ServerErrorCode`](https://code.samourai.io/whirlpool/whirlpool-server/-/blob/develop/src/main/java/com/samourai/whirlpool/server/exceptions/ServerErrorCode.java)
+    - `message` 
 - REST client for Whirlpool is implemented in `whirlpool-client` with class [`ServerApi.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/whirlpool/ServerApi.java)
 
 
@@ -151,11 +153,13 @@ If the client gets disconnected for some reason, it has to restart the whole cyc
     - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (must have >= 1 confirmations)
     - `signature`: message "$poolId" signed with utxo's key
     - `liquidity`: true for PREMIX, false for POSTMIX
+    - `blockHeight`: height of the latest block
 - Client is now automatically queued for mixing and keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java). 
 It takes generally a few minutes to be selected for the first mix (and a few hours for a free remix).
-- If UTXO is rejected, client receives an error to `/private/reply`. Example: if UTXO is banned, client receives {"message": "Banned from service. <optional details>"}.
+- If UTXO is rejected, client receives an error to `/private/reply`. Example: if UTXO is banned, client receives {errorCode: 612, "message": "Banned from service. <optional details>"}.
 
 keeps waiting for a [`ConfirmInputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/ConfirmInputMixStatusNotification.java)
+
 
 #### 2. CONFIRM_INPUT
 ![](charts/dialog2_confirmInput.png)

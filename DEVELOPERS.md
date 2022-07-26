@@ -12,4 +12,4 @@ The [`whirlpool-cli`](https://code.samourai.io/whirlpool/whirlpool-client-cli) i
 A [REST API](https://code.samourai.io/whirlpool/whirlpool-client-cli/-/blob/develop/doc/API.md) is made available to quickly bootstrap your own applications on top of Whirlpool.
 
 ## III. Using your own implementation of the protocol
-See [Whirlpool protocol](ARCHITECTURE.md)
+Review the [architecture](ARCHITECTURE.md) and implement it in your own way.

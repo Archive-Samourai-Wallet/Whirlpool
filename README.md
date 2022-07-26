@@ -46,7 +46,7 @@ Whirlpool requires the use of a blinded coordinator server to pass messages betw
 
 ### Developers
 
-- See [DEVELOPERS.md] to quickly bootstrap your own applications on top of Whirlpool.
+- See [DEVELOPERS.md](DEVELOPERS.md) to quickly bootstrap your own applications on top of Whirlpool.
 
 ## Implementing Whirlpool into your products and services
 

@@ -46,9 +46,7 @@ Whirlpool requires the use of a blinded coordinator server to pass messages betw
 
 ### Developers
 
-- A [REST API](https://code.samourai.io/whirlpool/whirlpool-client-cli/blob/develop/README-API.md) is made available to quickly bootstrap your own applications on top of Whirlpool.
-- Java and Android libraries can be found within the [`whirlpool-client`](https://code.samourai.io/whirlpool/whirlpool-client) repository.
-- A command line client is also available. You can find more information within the [`whirlpool-client-cli`](https://code.samourai.io/whirlpool/whirlpool-client-cli) repository.
+- See [DEVELOPERS.md] to quickly bootstrap your own applications on top of Whirlpool.
 
 ## Implementing Whirlpool into your products and services
 

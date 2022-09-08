@@ -97,7 +97,7 @@ Each message field suffixed as "64" is encoded with Z85.
         - `poolId`: pool identifier
         - `feePaymentCode`: payment code for `feePayload64` obfuscation
         - `feeValue`: Whirlpool fee
-        - `feeChange`: fake fee value when `feeValue=0`
+        - `feeChange`: fake fee value when `feeValue=0`. You should always use a feeChange output when feeChange>0 to keep the same Tx0 structure for all users and protect against onchain analysis.
         - `feeDiscountPercent`: %discount applied
         - `message`: scode info
         - `feePayload64`: payload for OP_RETURN

@@ -102,6 +102,7 @@ Each message field suffixed as "64" is encoded with Z85.
         - `message`: scode info
         - `feePayload64`: payload for OP_RETURN
         - `feeAddress`: fee destination
+        - `feeOutputSignature`: Bitcoin signature of the fee txout (specified by `feeAddress` and `feeValue`) serialization (https://developer.bitcoin.org/reference/transactions.html#txout-a-transaction-output), signed by the official coordinator signing address (defined in [`WhirlpoolServer.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java))
 - Client creates the TX0
     - [1-N] deposit inputs (confirmed or not)
     - [1-N] PREMIX outputs (max count `PoolInfo.tx0MaxOutputs`) of the same value (`PoolInfo.mustMixBalanceMin <= value <= PoolInfo.mustMixBalanceCap`)

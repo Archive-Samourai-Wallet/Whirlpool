@@ -1,7 +1,7 @@
 sequenceDiagram
     autonumber
 
-    Note over Client / alt. identity,Server: << REST >> from alternate identity
-    Client / alt. identity->>+Server: POST /rest/checkOutput [CheckOutputRequest]
+    Note over Client / alt. identity,Coordinator: << REST >> from alternate identity
+    Client / alt. identity->>+Coordinator: POST /rest/checkOutput [CheckOutputRequest]
 
-    Server->>-Client / alt. identity: [HTTP SUCCESS 200]
+    Coordinator->>-Client / alt. identity: [HTTP SUCCESS 200]

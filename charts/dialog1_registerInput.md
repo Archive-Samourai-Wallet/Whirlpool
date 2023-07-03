@@ -1,14 +1,11 @@
 sequenceDiagram
     autonumber
-    Note over Client,Server: << WEBSOCKET >>
-
-    Note left of Client: Connecting...
-    Client-->>+Server: connect /ws/connect
-    Client->>+Server: subscribe /private/reply (header: $poolId)
-    Server -->>-Client: SubscribePoolResponse
+    Note over Client,Soroban: << JSON-RPC >>
 
     Note left of Client: Registering input...
-    Client->>Server: /ws/registerInput [RegisterInputRequest]
+    Client->>Soroban: directory.Add: com.samourai.whirlpool.wo.inputs.<poolId> [RegisterInputSorobanMessage]
+    
     Note left of Client: Waiting for a mix...
-
-    Note over Client,Server: ... Wait for being invited to mix
+    Soroban->>Client: directory.List: <responseKey> [InviteMixSorobanMessage]
+    
+    Note over Client,Soroban: ... Wait for being invited to mix

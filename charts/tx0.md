@@ -1,16 +1,16 @@
 sequenceDiagram
     autonumber
 
-    Note over Client,Server: << REST >>
+    Note over Client,Coordinator: << REST >>
 
     Note left of Client: Preview TX0...
-    Client->>+Server: POST /rest/tx0 [Tx0DataRequestV2]
-    Server-->>-Client: Tx0DataResponseV2
+    Client->>+Coordinator: POST /rest/tx0 [Tx0DataRequestV2]
+    Coordinator-->>-Client: Tx0DataResponseV2
 
     Note left of Client: Push TX0...
-    Client-->>+Server: POST /rest/tx0/push [Tx0PushRequest]
+    Client-->>+Coordinator: POST /rest/tx0/push [Tx0PushRequest]
     alt success
-        Server-->>-Client: PushTxResponse
+        Coordinator-->>-Client: PushTxResponse
     else error
-        Server-->>Client: PushTxErrorResponse
+        Coordinator-->>Client: PushTxErrorResponse
     end

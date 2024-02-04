@@ -167,7 +167,7 @@ If the client gets disconnected for some reason, it has to restart the whole cyc
 
 
 
-#### 2. CONFIRM_INPUT
+#### 1. CONFIRM_INPUT
 ![](charts/dialog2_confirmInput.png)
 
 - Client connects to wss://${serverUrl}/ws/connect (no header required)
@@ -186,7 +186,7 @@ It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha
 - Client receives [`ConfirmInputResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputResponse.java) and it is now guaranteed to be in the mix:
     - `signedBordereau64`: chaumian signature of `blindedBordereau64` for the mix
 
-#### 3. REGISTER_OUTPUT
+#### 2. REGISTER_OUTPUT
 ![](charts/dialog3_registerOutput.png)
 - Client receives [`RegisterOutputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/RegisterOutputMixStatusNotification.java):
     - `inputsHash`: hash of all mixs inputs = `sha512(join(sort(inputHash+inputIndex)))` used as an anonymous verifiable mix round identifier.
@@ -202,7 +202,7 @@ It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha
 - If `RegisterOutputRequest` fails because of reusing existing `receiveAddress`, Client can retry submitting `RegisterOutputRequest` with a different `receiveAddress`.  
 If Client cannot find a fresh `receiveAddress` before mix is over, it should run `CheckOutput` process to fix it's local postmix counter (see below).
 
-#### 4. SIGNING & SUCCESS
+#### 3. SIGNING & SUCCESS
 ![](charts/dialog4_signing.png)
 - Client receives [`SigningMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/SigningMixStatusNotification.java):
     - `transaction64`: raw transaction to sign

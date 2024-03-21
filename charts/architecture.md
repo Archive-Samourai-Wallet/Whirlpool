@@ -6,7 +6,7 @@ GUI[Whirlpool-gui] -->|rest api|CLI[Whirlpool-cli]
 CLI -->|maven|CLIENT[Whirlpool-client]
 
 CLIENT -->|websocket + rest|PROTOCOL{Whirlpool-protocol}
-CLIENT -->|maven|EXTLIBJ[ExtLibJ / BitcoinJ]
+CLIENT -->|maven|EXTLIBJ[ExtLibJ, BitcoinJ, soroban...]
 
 PROTOCOL -->SERVER[Whirlpool-server]
 

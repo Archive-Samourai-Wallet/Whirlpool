@@ -1,0 +1,15 @@
+flowchart TB
+CLIENT1(CLIENT 1) <-->|JSON-RPC| SOROBAN
+CLIENT2(CLIENT 2) <-->|JSON-RPC| SOROBAN
+
+    subgraph SOROBAN
+        NODE_A((node)) o--o NODE_B((node))
+        NODE_A o--o NODE_C((node))
+        NODE_A o--o NODE_D((node))
+        NODE_B o--o NODE_C
+        NODE_C o--o NODE_D
+    end
+
+    SOROBAN <-->|JSON-RPC| COORDINATOR1(COORDINATOR 1)
+    SOROBAN <-->|JSON-RPC| COORDINATOR2(COORDINATOR 2)
+    SOROBAN <-->|JSON-RPC| COORDINATOR3(COORDINATOR 3)

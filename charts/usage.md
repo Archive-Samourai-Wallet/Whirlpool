@@ -12,4 +12,6 @@ CMD(Command-line)-->|java -jar|CLI
 CLI-->CLIENT[Whirlpool-client]
 WALLET(Android)-->|gradle|CLIENT
 JAVA(Java)-->|maven|CLIENT
-class DSK,DEV,JAVA,CMD,WALLET blue
+
+RUST(Rust)-->CLIENTRS(whirlpool-client-rs)
+class DSK,DEV,JAVA,RUST,CMD,WALLET blue

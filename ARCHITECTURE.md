@@ -1,240 +1,62 @@
 # Whirlpool architecture
 
+## I. Ecosystem
 
-## I. Usage
-Whirlpool can be managed:
-- from desktop: `whirlpool-gui`
-- from command line: `whirlpool-cli`
-- from REST API for developers: `whirlpool-cli API`
-- from JAVA & Android: `whirlpool-client`
+### 1. Whirlpool apps
+Whirlpool is available for:
+- desktop (windows / mac / linux): [`whirlpool-gui`](https://code.samourai.io/whirlpool/whirlpool-gui) and [`Sparrow Wallet`](https://github.com/sparrowwallet/sparrow)
+- command line (java): [`whirlpool-client-cli`](https://code.samourai.io/whirlpool/whirlpool-client-cli)
+- Android: [`SamouraiWallet`](https://code.samourai.io/wallet/samourai-wallet-android)
+
+
+### 2. Developers
+Whirlpool is officially implemented in Java:
+- main libraries: 
+  * [`whirlpool-server`](https://code.samourai.io/whirlpool/whirlpool-server/) for coordinator application
+  * [`whirlpool-client`](https://code.samourai.io/whirlpool/whirlpool-client) for  client library
+  * [`whirlpool-protocol`](https://code.samourai.io/whirlpool/whirlpool-protocol) for communication protocol
+  * [`whirlpool-client-cli`](https://code.samourai.io/whirlpool/whirlpool-client-cli) for client CLI application
+- utilities: 
+  * [`extlibj`](https://code.samourai.io/wallet/ExtLibJ) for shared Samourai utilities
+  * [`bitcoinj`](https://code.samourai.io/wallet/bitcoinj) for Bitcoin implementation (custom BitcoinJ fork by Samourai)
+  * [`soroban-client-java`](https://code.samourai.io/wallet/soroban-client-java) for communication over Soroban
+  
+    
+![](charts/architecture.png)
+
+Developers can also reach Whirlpool through:
+- REST API embedded by `whirlpool-cli`
+- Rust client implemented by Straylight: [`whirlpool-client-rs`](https://github.com/straylight-orbit/whirlpool-client-rs)
 
 ![](charts/usage.png)
 
 
-## II. Modules
-Whirlpool is modular:
-- 4 java modules: `server`, `client`, `protocol`, `cli`
-- 1 electron/react module: `GUI`
-
-`client` and `server` communicate through `protocol`.
-
-![](charts/architecture.png)
+## II. Architecture
 
 
-## III. General
-#### 1. Soroban
-Soroban servers are accessed through:
-- JSON-RPC: for pre-cycle dialog  
+### 1. Soroban network
+Clients and coordinators are communicating through Soroban network. There is no direct connection between clients & coordinators anymore.
 
-Soroban servers are defined in [`SorobanServerDex`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java) (clearnet + Tor onion hidden services).
+Soroban is accessed through JSON-RPC via any available Soroban node, which are accessed from Tor onion hidden-service and/or clearnet. Each node is receiving and relaying messages to the other nodes.  
+Bootstrap nodes are defined in [`SorobanServerDex`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java).
 
-#### 2. Coordinator
-Coordinator is accessed through:
-- REST over https: for TX0 and REGISTER_OUTPUT
-- websocket: for cycle dialog
-
-Dialog with coordinator is described in `whirlpool-protocol`
+![](charts/soroban.png)
 
 
-#### 2. REST
-- All REST errors from coordinator conform to [`RestErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RestErrorResponse.java)
-    - `errorCode`: see [`ServerErrorCode`](https://code.samourai.io/whirlpool/whirlpool-server/-/blob/develop/src/main/java/com/samourai/whirlpool/server/exceptions/ServerErrorCode.java)
-    - `message` 
-- REST client for Whirlpool is implemented in `whirlpool-client` with class [`ServerApi.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/whirlpool/ServerApi.java)
+### 2. Coordinators discovery
 
+Coordinators are discovered by clients through Soroban.  
 
-#### 3. Websocket
-Websocket uses:
-- STOMP over websocket
-- SockJS is supported (optional)
-- Websocket client for Whirlpool is implemented in `whirlpool-client` with classes _`MixProcess.java`_, _`MixSession.java`_, _`MixClient.java`_
+Each coordinator is announcing its online presence through Soroban.  
+It is identified by a unique `sender` (BIP47 PaymentCode) signed by Samourai key (see [`WhirlpoolNetwork`](https://code.samourai.io/wallet/ExtLibJ/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolNetwork.java) signingAddress).
 
+Coordinators can go online and offline without any service interruption as clients will automatically switch to the next one.
 
-Each STOMP messages from client:
-- requires StompHeader `protocolVersion`: defined in [`WhirlpoolProtocol`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/WhirlpoolProtocol.java#L14), only bumps on breaking protocol changes.
+![](charts/discovery.png)
 
-Each STOMP message from coordinator:
-- defines StompHeader `protocolVersion`: your client should check it to detect any beaking coordinator upgrade.
-- defines StompHeader `messageType`: this is the payload type (Java class name).
+### 3. Clients identities
 
-Websocket errors are sent to client's queue `/private/reply` as [`ErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ErrorResponse.java):
-- `errorCode` conforms to [`ServerErrorCode`](https://code.samourai.io/whirlpool/whirlpool-server/-/blob/develop/src/main/java/com/samourai/whirlpool/server/exceptions/ServerErrorCode.java)
+Clients are connecting through Soroban with temporary identities  `sender` (on-the-fly generated BIP47 PaymentCodes).  
+Each client request (TX0, mixing cycles) is pushed through a random Soroban node and with a fresh identity.  
+Within a mixing cycle, client uses a distinct identity to register coinjoin output, making it impossible to link with coinjoin input.
 
-Client can open multiple websocket connexions to (re)mix in multiple pools simultaneously. We recommend a maximum of 1 PREMIX utxo per pool + 1 POSTMIX utxo per pool. Registering more inputs won't speed-up the mixing.
-
-We suggest reconnecting after waiting for a mix for more than 1 hour.
-
-#### 4. Messages
-Each message field suffixed as "64" is encoded with Z85.
-
-
-## IV. Pre-cycle
-#### 1. Get coordinators & pools from Soroban
-![](charts/coordinators.png)
-
-- Client lists `com.samourai.whirlpool.ro.coordinators`
-- Client receives [`RegisterCoordinatorSorobanMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/soroban/RegisterCoordinatorSorobanMessage.java):
-    - coordinators[]: array of CoordinatorInfo
-        - coordinatorId
-        - urlClear
-        - urlOnion;
-    - `pools[]`: array of [`PoolInfoSoroban`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/soroban/PoolInfoSoroban.java)
-        - poolId: pool identifier
-        - denomination: POSTMIX value
-        - feeValue: Whirlpool fee
-        - premixValue: recommended PREMIX value
-        - premixValueMin: min PREMIX value
-        - premixValueMax: max PREMIX value
-        - tx0MaxOutputs: max count of POSTMIX per Tx0
-        - anonymitySet: pool anonymity set
-
-
-#### 2. Create Tx0 to Coordinator
-![](charts/tx0.png)
-
-- Client submits `POST /rest/tx0/v1` [`Tx0DataRequestV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataRequestV2.java) to preview TX0:
-    - `scode`: discount code (optional)
-    - `partnerId`: partner identifier (`SAMOURAI`, `SPARROW`...)
-- Client receives [`Tx0DataResponseV2`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataResponseV2.java):
-    - `tx0Datas[]`: array of [`Tx0DataResponseV2.Tx0Data`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0DataResponseV2.java#L13)
-        - `poolId`: pool identifier
-        - `feePaymentCode`: payment code for `feePayload64` obfuscation
-        - `feeValue`: Whirlpool fee
-        - `feeChange`: fake fee value when `feeValue=0`. You should always use a feeChange output when feeChange>0 to keep the same Tx0 structure for all users and protect against onchain analysis.
-        - `feeDiscountPercent`: %discount applied
-        - `message`: scode info
-        - `feePayload64`: payload for OP_RETURN
-        - `feeAddress`: fee destination
-        - `feeOutputSignature`: Bitcoin signature of the fee txout (specified by `feeAddress` and `feeValue`) serialization (https://developer.bitcoin.org/reference/transactions.html#txout-a-transaction-output), signed by the official coordinator signing address (defined in [`WhirlpoolServer.java`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java))
-- Client creates the TX0
-    - [1-N] deposit inputs (confirmed or not)
-    - [1-N] PREMIX outputs (max count `PoolInfo.tx0MaxOutputs`) of the same value (`PoolInfo.mustMixBalanceMin <= value <= PoolInfo.mustMixBalanceCap`)
-    - 1 Whirlpool fee output of `feeValue` to `feeAddress`, when `feeValue>0`
-    - 1 fake Whirlpool fee output of `feeChange` to DEPOSIT, when `feeValue=0`
-    - 1 OP_RETURN (80 bytes) generated by concatenating following elements:
-        - feePayloadMasked (46 bytes): result of `xorMask(feePayload64, signingKey, feePaymentCode)` truncated on 46 bytes
-        - signingPublicKey (33 bytes): the public key used for xorMask (this can be any key)
-        - OP_RETURN_VERSION (1 byte): value of `1`
-        See [`FeeOpReturnImplV1.computeOpReturn()`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/feeOpReturn/FeeOpReturnImplV1.java#L63) or [`FeeOpReturnImplV1Test`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/test/java/com/samourai/whirlpool/protocol/feeOpReturn/FeeOpReturnImplV1Test.java#L92) for implementation details.
-    - eventual change output to DEPOSIT
-- Client submits `POST /rest/tx0/push` [`Tx0PushRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/Tx0PushRequest.java):
-    - tx64: transaction to push
-    - poolId: pool identifier
-- On success: Client receives [`PushTxSuccessResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PushTxSuccessResponse.java) on success:
-    - txid: transaction id successfully pushed
-- On error: Client receives [`PushTxErrorResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/PushTxErrorResponse.java) on error:
-    - pushTxErrorCode: failure reason
-    - voutsAddressReuse: (optional) output indexes with address-reuse
-
-#### 3. CheckOutput to Coordinator
-
-As stated in Cycle dialog, any `receiveAddress` already known by coordinator will be declined. The client should keep a local POSTMIX index to increment on REGISTER_OUTPUT, and never be roll it back even in case of a mix failure.   
-Reusing an already known `receiveAddress` will be rejected, and the client will be blamed/banned when causing mixing failures.  
-
-To make sure a `receiveAddress` is unknown to the server, we suggest using the CheckOutput service at client startup.  
-We also suggest to use it in case of REGISTER_OUTPUT failure.
-
-![](charts/checkOutput.png)
-
-- Client submits `POST /rest/checkOutput`
-- Client receives HTTP 200 if output is unknown
-
-
-
-#### 4. REGISTER_INPUT to Soroban
-![](charts/dialog1_registerInput.png)
-
-- Client submits [`RegisterInputSorobanMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/soroban/RegisterInputSorobanRequest.java):
-    - `poolId`: obtained from /rest/pools
-    - `utxoHash` + `utxoIndex`: a PREMIX or POSTMIX utxo (must have >= 1 confirmations)
-    - `signature`: message "$poolId" signed with utxo's key
-    - `liquidity`: true for PREMIX, false for POSTMIX
-    - `blockHeight`: height of the latest block
-- Client is now automatically queued for mixing and keeps waiting for a [`InviteMixSorobanMessage`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/soroban/InviteMixSorobanMessage.java) on $responseKey:
-    - `mixId`: unique identifier of the mix round to join
-    - `mixPublicKey`: public key to use for chaumian blinding
-    - `coordinatorUrlClear`: coordinator URL (clearnet)
-    - `coordinatorUrlOnion`: coordinator URL (onion)
-        
-It takes generally a few minutes to be selected for the first mix (and a few hours for a free remix).
-
-
-## V. Cycle dialog
-
-### A. Succesful mix process
-This is the standard mix process.  
-If the client gets disconnected for some reason, it has to restart the whole cycle dialog.
-
-
-
-#### 1. CONFIRM_INPUT
-![](charts/dialog2_confirmInput.png)
-
-- Client connects to wss://${serverUrl}/ws/connect (no header required)
-- Client subscribes to `/private/reply` (STOMP header: `poolId`)
-
-- Client generates a fresh `bordereau` which must be unique, such as 30 random bytes
-- Client generates a fresh POSTMIX `receiveAddress` (bech32) which was **NEVER used** yet, including in failed mixs. See checkOutput for this.
-- Client generates a fresh `RSABlindingParameters` from `publicKey64`
-- Client submits [`ConfirmInputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputRequest.java):
-    - `mixId`
-    - `blindedBordereau64` = `chaumianBlind(bordereau, RSABlindingParameters)`
-    - `userHash`: identifier which should be unique for {wallet, mixId}.  
-We use this to prevent Client to mix with its own wallet when using multiple instances simultaneously (Android, CLI).  
-It can be anything as long as it changes with mixId. We use: `sha256(mixId + sha256(premix00Bech32))`
-
-- Client receives [`ConfirmInputResponse`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/ConfirmInputResponse.java) and it is now guaranteed to be in the mix:
-    - `signedBordereau64`: chaumian signature of `blindedBordereau64` for the mix
-
-#### 2. REGISTER_OUTPUT
-![](charts/dialog3_registerOutput.png)
-- Client receives [`RegisterOutputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/RegisterOutputMixStatusNotification.java):
-    - `inputsHash`: hash of all mixs inputs = `sha512(join(sort(inputHash+inputIndex)))` used as an anonymous verifiable mix round identifier.
-
-- Client increments it's local POSTMIX counter to make sure that it won't ever submit again this `receiveAddress`, even if mix fails.
-
-- Client submits [`RegisterOutputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/rest/RegisterOutputRequest.java) through a different identity:
-    - `inputsHash`
-    - `bordereau64`: the bordereau generated during CONFIRM_INPUT
-    - `unblindedSignedBordereau64` = `chamianUnblind(signedBordereau64, RSABlindingParameters)`
-    - `receiveAddress`
-
-- If `RegisterOutputRequest` fails because of reusing existing `receiveAddress`, Client can retry submitting `RegisterOutputRequest` with a different `receiveAddress`.  
-If Client cannot find a fresh `receiveAddress` before mix is over, it should run `CheckOutput` process to fix it's local postmix counter (see below).
-
-#### 3. SIGNING & SUCCESS
-![](charts/dialog4_signing.png)
-- Client receives [`SigningMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/SigningMixStatusNotification.java):
-    - `transaction64`: raw transaction to sign
-
-- Client checks that `inputsHash` matches
-- Client checks it's input among tx inputs
-- Client checks it's output among tx outputs
-- Client generates `witnesses64` by signing the transaction
-- Client submits [`SigningRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/SigningRequest.java):
-    - `mixId`
-    - `witnesses64`
-- Client receives [`SuccessMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/SuccessMixStatusNotification.java)
-- Client disconnects
-
-### B. Mix failure
-
-#### 1. REVEAL_OUTPUT process
-This process will trigger if a peer fails to REGISTER_OUTPUT, causing the mix to fail.  
-Each client should reveal its registered output to coordinator, which will find and blame the faulty client.
-
-- Client receives [`RevealOutputMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/RevealOutputMixStatusNotification.java)
-- Client submits [`RevealOutputRequest`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/messages/RevealOutputRequest.java):
-    - `mixId`
-    - `receiveAddress`
-
-![](charts/dialog5_revealOutput.png)
-
-#### 2. Mix failure
-![](charts/dialog6_fail.png)
-- Client receives [`FailMixStatusNotification`](https://code.samourai.io/whirlpool/whirlpool-protocol/-/blob/develop/src/main/java/com/samourai/whirlpool/protocol/websocket/notifications/FailMixStatusNotification.java)
-- Client disconnects and restarts the whole cycle dialog.
-
-
-#### 3. Ban policy
-Client should avoid disconnecting after receiving `RegisterOutputMixStatusNotification`. If client disconnects during `REGISTER_OUTPUT` or `SIGNING`, it will ruin the mix and client may be temporarily banned after too many disconnects.

@@ -38,7 +38,7 @@ Developers can also reach Whirlpool through:
 Clients and coordinators are communicating through Soroban network. There is no direct connection between clients & coordinators anymore.
 
 Soroban is accessed through JSON-RPC via any available Soroban node, which are accessed from Tor onion hidden-service and/or clearnet. Each node is receiving and relaying messages to the other nodes.  
-Bootstrap nodes are defined in [`SorobanServerDex`](https://code.samourai.io/whirlpool/whirlpool-client/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolServer.java).
+Bootstrap nodes are defined in [`SorobanServerDex`](https://code.samourai.io/wallet/ExtLibJ/-/blob/feature/dexwp/java/com/samourai/wallet/sorobanClient/SorobanServerDex.java).
 
 ![](charts/soroban.png)
 
@@ -48,7 +48,7 @@ Bootstrap nodes are defined in [`SorobanServerDex`](https://code.samourai.io/whi
 Coordinators are discovered by clients through Soroban.  
 
 Each coordinator is announcing its online presence through Soroban.  
-It is identified by a unique `sender` (BIP47 PaymentCode) signed by Samourai key (see [`WhirlpoolNetwork`](https://code.samourai.io/wallet/ExtLibJ/-/blob/develop/src/main/java/com/samourai/whirlpool/client/wallet/beans/WhirlpoolNetwork.java) signingAddress).
+It is identified by a unique `sender` (BIP47 PaymentCode) signed by Samourai key (see [`SamouraiNetwork`](https://code.samourai.io/wallet/ExtLibJ/-/blob/feature/dexwp/java/com/samourai/wallet/constants/SamouraiNetwork.java) signingAddress).
 
 Coordinators can go online and offline without any service interruption as clients will automatically switch to the next one.
 
